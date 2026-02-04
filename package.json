@@ -1,0 +1,41 @@
+{
+  "name": "moneyreport",
+  "version": "1.0.0",
+  "description": "비영리기관 예산 및 자금흐름 관리 시스템",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "server": "node server/index.js"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "firebase": "^10.14.1",
+    "next-auth": "^4.24.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "axios": "^1.5.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "recharts": "^2.8.0",
+    "date-fns": "^2.30.0",
+    "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/express": "^4.17.20",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.3",
+    "@types/cors": "^2.8.15",
+    "typescript": "^5.2.2",
+    "eslint": "^8.50.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}
