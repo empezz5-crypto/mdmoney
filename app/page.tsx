@@ -84,6 +84,8 @@ export default function Home() {
     hook: '',
     notes: '',
   });
+  const [keyword, setKeyword] = useState('');
+  const [aiLoading, setAiLoading] = useState(false);
 
   const metrics = useMemo(() => {
     const total = shorts.length;
@@ -174,6 +176,32 @@ export default function Home() {
       setError('n8n 전송에 실패했어요. 웹훅 주소를 확인해 주세요.');
     } finally {
       setSubmitting(false);
+    }
+  }
+
+  async function handleAutoFill() {
+    setError(null);
+    setSuccess(null);
+    setAiLoading(true);
+    try {
+      const res = await fetch(`${API_URL}/api/ai/auto`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ keyword: keyword.trim() }),
+      });
+      if (!res.ok) throw new Error('failed');
+      const data = await res.json();
+      setForm({
+        topic: data.topic || '',
+        subtopic: data.subtopic || '',
+        hook: data.hook || '',
+        notes: data.notes || '',
+      });
+      setSuccess('최신 트렌드 기반으로 자동 입력했어요.');
+    } catch {
+      setError('AI 자동 입력에 실패했어요. 키 설정을 확인해 주세요.');
+    } finally {
+      setAiLoading(false);
     }
   }
 
@@ -342,6 +370,15 @@ export default function Home() {
             <p className="panel-desc">주제와 하위 주제를 입력하면 n8n 웹훅으로 전송돼요.</p>
             <form onSubmit={handleSubmit} className="form">
               <label>
+                참고 키워드 (선택)
+                <input
+                  className="input"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  placeholder="예: 부동산, 경제, 생산성"
+                />
+              </label>
+              <label>
                 주제
                 <input
                   className="input"
@@ -377,9 +414,14 @@ export default function Home() {
                   placeholder="톤, 참고 채널, 길이 등"
                 />
               </label>
-              <button className="btn primary" type="submit" disabled={submitting}>
-                {submitting ? '전송 중...' : 'n8n에 전송하기'}
-              </button>
+              <div className="inline-actions">
+                <button className="btn ghost" type="button" onClick={handleAutoFill} disabled={aiLoading}>
+                  {aiLoading ? 'AI 생성 중...' : 'AI 자동 입력'}
+                </button>
+                <button className="btn primary" type="submit" disabled={submitting}>
+                  {submitting ? '전송 중...' : 'n8n에 전송하기'}
+                </button>
+              </div>
             </form>
           </div>
 

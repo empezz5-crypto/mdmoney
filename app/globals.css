@@ -313,6 +313,12 @@ a {
   align-items: end;
 }
 
+.inline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .loading,
 .empty {
   padding: 24px;

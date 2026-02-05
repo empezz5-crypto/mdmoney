@@ -36,6 +36,7 @@ app.use('/api/kb', require('./routes/kb'));
 app.use('/api/shorts', require('./routes/shorts'));
 app.use('/api/n8n', require('./routes/n8n'));
 app.use('/api/push', require('./routes/push'));
+app.use('/api/ai', require('./routes/ai'));
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Server is running' });
