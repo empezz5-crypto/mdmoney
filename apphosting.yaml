@@ -2,19 +2,19 @@ env:
   - variable: NEXT_PUBLIC_API_URL
     value: https://your-cloud-run-url.a.run.app
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
-    value: AIzaSyAKkKZg8OnLEtBE15P5jidhiXQNMeJ8J9s
+    value: AIzaSyB2DDKnH4im-7uafLeU4EqbpfaoYHiqJVQ
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
-    value: dm-ff61a.firebaseapp.com
+    value: dmmoney-922dd.firebaseapp.com
   - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
-    value: dm-ff61a
+    value: dmmoney-922dd
   - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-    value: dm-ff61a.firebasestorage.app
+    value: dmmoney-922dd.firebasestorage.app
   - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
-    value: "153994519197"
+    value: "775067701875"
   - variable: NEXT_PUBLIC_FIREBASE_APP_ID
-    value: 1:153994519197:web:19fb3f79cfbcf70faeaa74
+    value: 1:775067701875:web:7ec584a7a157257525d006
   - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
-    value: G-64D9VRBMW2
+    value: G-W7HJNW3VYT
   - variable: NEXTAUTH_URL
     value: https://your-app-hosting-domain.web.app
   - variable: GOOGLE_CLIENT_ID
