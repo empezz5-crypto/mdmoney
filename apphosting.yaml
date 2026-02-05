@@ -1,6 +1,6 @@
 env:
   - variable: NEXT_PUBLIC_API_URL
-    value: https://your-cloud-run-url.a.run.app
+    value: https://shorts-api-2f2fea6q5q-as.a.run.app
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
     value: AIzaSyB2DDKnH4im-7uafLeU4EqbpfaoYHiqJVQ
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
@@ -16,7 +16,7 @@ env:
   - variable: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID
     value: G-W7HJNW3VYT
   - variable: NEXTAUTH_URL
-    value: https://your-app-hosting-domain.web.app
+    value: https://mdmoney--dmmoney-922dd.asia-southeast1.hosted.app
   - variable: GOOGLE_CLIENT_ID
     value: replace_with_google_client_id
   - variable: ALLOWED_GOOGLE_EMAIL
