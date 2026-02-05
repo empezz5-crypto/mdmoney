@@ -18,9 +18,9 @@ env:
   - variable: NEXTAUTH_URL
     value: https://mdmoney--dmmoney-922dd.asia-southeast1.hosted.app
   - variable: GOOGLE_CLIENT_ID
-    value: replace_with_google_client_id
+    value: 583906755577-f1vtiq2in4mrqkmvjch5073p5gu3hltv.apps.googleusercontent.com
   - variable: ALLOWED_GOOGLE_EMAIL
-    value: your@email.com
+    value: atomicstudio15@gmail.com
   - variable: NEXTAUTH_SECRET
     secret: NEXTAUTH_SECRET
   - variable: GOOGLE_CLIENT_SECRET
