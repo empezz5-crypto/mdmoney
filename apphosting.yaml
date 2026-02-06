@@ -1,6 +1,6 @@
 env:
   - variable: NEXT_PUBLIC_API_URL
-    value: https://shorts-api-2f2fea6q5q-as.a.run.app
+    value: https://asia-southeast1-dmmoney-922dd.cloudfunctions.net/api
   - variable: NEXT_PUBLIC_FIREBASE_API_KEY
     value: AIzaSyB2DDKnH4im-7uafLeU4EqbpfaoYHiqJVQ
   - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
