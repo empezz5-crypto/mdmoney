@@ -22,7 +22,7 @@ const VAPID_SUBJECT = defineSecret("VAPID_SUBJECT");
 const N8N_WEBHOOK_URL = defineSecret("N8N_WEBHOOK_URL");
 const PUSH_CRON_SECRET = defineSecret("PUSH_CRON_SECRET");
 
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o-mini";
+const OPENAI_MODEL = "gpt-4o-mini";
 
 const app = express();
 app.use(cors({origin: true}));
