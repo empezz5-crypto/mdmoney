@@ -172,7 +172,7 @@ async function runScheduleTick(secrets) {
   const ref = db.collection("pushSchedule").doc("default");
   const snap = await ref.get();
   const schedule = snap.exists ? snap.data() : null;
-  if (!schedule?.enabled || !schedule?.time) {
+  if (!schedule || !schedule.enabled || !schedule.time) {
     return {sent: false, reason: "disabled"};
   }
   const timezone = schedule.timezone || "UTC";
