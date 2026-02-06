@@ -1,5 +1,6 @@
 const {setGlobalOptions} = require("firebase-functions");
 const {onRequest} = require("firebase-functions/v2/https");
+const {onSchedule} = require("firebase-functions/v2/scheduler");
 const {defineSecret} = require("firebase-functions/params");
 const logger = require("firebase-functions/logger");
 const admin = require("firebase-admin");
@@ -165,6 +166,29 @@ async function sendPushToAll({vapidPublic, vapidPrivate, vapidSubject}, payload)
     sent: results.filter((r) => r.status === "fulfilled").length,
     total: subs.length,
   };
+}
+
+async function runScheduleTick(secrets) {
+  const ref = db.collection("pushSchedule").doc("default");
+  const snap = await ref.get();
+  const schedule = snap.exists ? snap.data() : null;
+  if (!schedule?.enabled || !schedule?.time) {
+    return {sent: false, reason: "disabled"};
+  }
+  const timezone = schedule.timezone || "UTC";
+  const nowLabel = getNowLabel(timezone);
+  if (nowLabel !== schedule.time) return {sent: false, reason: "not-time"};
+  const today = getToday(timezone);
+  if (schedule.lastSentOn === today) {
+    return {sent: false, reason: "already-sent"};
+  }
+  await sendPushToAll(secrets, {
+    title: schedule.title,
+    body: schedule.body,
+    url: "/",
+  });
+  await ref.set({lastSentOn: today}, {merge: true});
+  return {sent: true};
 }
 
 // Shorts CRUD
@@ -335,26 +359,8 @@ app.post("/api/push/tick", async (req, res) => {
     return res.status(401).json({message: "unauthorized"});
   }
   try {
-    const ref = db.collection("pushSchedule").doc("default");
-    const snap = await ref.get();
-    const schedule = snap.exists ? snap.data() : null;
-    if (!schedule?.enabled || !schedule?.time) {
-      return res.json({sent: false, reason: "disabled"});
-    }
-    const timezone = schedule.timezone || "UTC";
-    const nowLabel = getNowLabel(timezone);
-    if (nowLabel !== schedule.time) return res.json({sent: false, reason: "not-time"});
-    const today = getToday(timezone);
-    if (schedule.lastSentOn === today) {
-      return res.json({sent: false, reason: "already-sent"});
-    }
-    await sendPushToAll(req.secrets, {
-      title: schedule.title,
-      body: schedule.body,
-      url: "/",
-    });
-    await ref.set({lastSentOn: today}, {merge: true});
-    return res.json({sent: true});
+    const result = await runScheduleTick(req.secrets);
+    return res.json(result);
   } catch (err) {
     return res.status(500).json({message: err.message});
   }
@@ -374,4 +380,28 @@ exports.api = onRequest(
     region: "asia-southeast1",
   },
   app
+);
+
+exports.pushTick = onSchedule(
+  {
+    schedule: "every 1 minutes",
+    region: "asia-southeast1",
+    secrets: [
+      VAPID_PUBLIC_KEY,
+      VAPID_PRIVATE_KEY,
+      VAPID_SUBJECT,
+    ],
+  },
+  async () => {
+    const secrets = {
+      vapidPublic: VAPID_PUBLIC_KEY.value(),
+      vapidPrivate: VAPID_PRIVATE_KEY.value(),
+      vapidSubject: VAPID_SUBJECT.value() || "mailto:admin@example.com",
+    };
+    try {
+      await runScheduleTick(secrets);
+    } catch (err) {
+      logger.error("pushTick error", err);
+    }
+  }
 );
