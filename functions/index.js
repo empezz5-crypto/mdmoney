@@ -201,13 +201,13 @@ async function runScheduleTick(secrets) {
 }
 
 // Shorts CRUD
-app.get("/api/shorts", async (_req, res) => {
+app.get("/shorts", async (_req, res) => {
   const snap = await db.collection("shorts").orderBy("createdAt", "desc").get();
   const items = snap.docs.map((doc) => ({id: doc.id, ...doc.data()}));
   res.json(items);
 });
 
-app.post("/api/shorts", async (req, res) => {
+app.post("/shorts", async (req, res) => {
   const {topic, subtopic, hook, notes} = req.body || {};
   if (!topic || !subtopic) {
     return res.status(400).json({message: "topic and subtopic required"});
@@ -227,7 +227,7 @@ app.post("/api/shorts", async (req, res) => {
   return res.status(201).json({id: docRef.id, ...data});
 });
 
-app.patch("/api/shorts/:id", async (req, res) => {
+app.patch("/shorts/:id", async (req, res) => {
   const {id} = req.params;
   const payload = req.body || {};
   const ref = db.collection("shorts").doc(id);
@@ -241,14 +241,14 @@ app.patch("/api/shorts/:id", async (req, res) => {
   return res.json({id, ...updated.data()});
 });
 
-app.delete("/api/shorts/:id", async (req, res) => {
+app.delete("/shorts/:id", async (req, res) => {
   const {id} = req.params;
   await db.collection("shorts").doc(id).delete();
   return res.json({removed: 1});
 });
 
 // n8n webhook
-app.post("/api/n8n/trigger", async (req, res) => {
+app.post("/n8n/trigger", async (req, res) => {
   const {topic, subtopic, hook, notes} = req.body || {};
   if (!topic || !subtopic) {
     return res.status(400).json({message: "topic and subtopic required"});
@@ -287,7 +287,7 @@ app.post("/api/n8n/trigger", async (req, res) => {
 });
 
 // AI auto-fill
-app.post("/api/ai/auto", async (req, res) => {
+app.post("/ai/auto", async (req, res) => {
   try {
     const {keyword} = req.body || {};
     const trends = await fetchTrendingVideos(req.secrets.youtubeKey, "KR", 12);
@@ -300,7 +300,7 @@ app.post("/api/ai/auto", async (req, res) => {
 });
 
 // Push
-app.get("/api/push/public-key", (req, res) => {
+app.get("/push/public-key", (req, res) => {
   const key = req.secrets.vapidPublic;
   if (!key) {
     return res.status(500).json({message: "VAPID_PUBLIC_KEY is missing"});
@@ -308,7 +308,7 @@ app.get("/api/push/public-key", (req, res) => {
   return res.json({publicKey: key});
 });
 
-app.post("/api/push/subscribe", async (req, res) => {
+app.post("/push/subscribe", async (req, res) => {
   const {subscription} = req.body || {};
   if (!subscription || !subscription.endpoint) {
     return res.status(400).json({message: "subscription required"});
@@ -318,7 +318,7 @@ app.post("/api/push/subscribe", async (req, res) => {
   return res.json({ok: true});
 });
 
-app.get("/api/push/schedule", async (_req, res) => {
+app.get("/push/schedule", async (_req, res) => {
   const ref = db.collection("pushSchedule").doc("default");
   const snap = await ref.get();
   if (!snap.exists) {
@@ -334,7 +334,7 @@ app.get("/api/push/schedule", async (_req, res) => {
   return res.json(snap.data());
 });
 
-app.post("/api/push/schedule", async (req, res) => {
+app.post("/push/schedule", async (req, res) => {
   const {enabled, time, title, body, timezone} = req.body || {};
   const schedule = {
     enabled: Boolean(enabled),
@@ -348,7 +348,7 @@ app.post("/api/push/schedule", async (req, res) => {
   return res.json(schedule);
 });
 
-app.post("/api/push/test", async (req, res) => {
+app.post("/push/test", async (req, res) => {
   try {
     const result = await sendPushToAll(req.secrets, {
       title: "테스트 알림",
@@ -361,7 +361,7 @@ app.post("/api/push/test", async (req, res) => {
   }
 });
 
-app.post("/api/push/tick", async (req, res) => {
+app.post("/push/tick", async (req, res) => {
   const secret = req.secrets.pushCronSecret;
   const header = req.header("x-cron-secret");
   if (secret && secret !== header) {
