@@ -112,7 +112,7 @@ export default function Home() {
   async function fetchShorts() {
     try {
       setLoading(true);
-      const res = await fetch(`${API_URL}/api/shorts`);
+      const res = await fetch(`${API_URL}/shorts`);
       if (!res.ok) throw new Error('failed');
       const data = await res.json();
       setShorts(data);
@@ -125,7 +125,7 @@ export default function Home() {
 
   async function fetchSchedule() {
     try {
-      const res = await fetch(`${API_URL}/api/push/schedule`);
+      const res = await fetch(`${API_URL}/push/schedule`);
       if (!res.ok) return;
       const data = await res.json();
       const fallbackTimezone =
@@ -165,7 +165,7 @@ export default function Home() {
 
     try {
       setSubmitting(true);
-      const res = await fetch(`${API_URL}/api/n8n/trigger`, {
+      const res = await fetch(`${API_URL}/n8n/trigger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -216,7 +216,7 @@ export default function Home() {
     setSuccess(null);
     setAiLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/ai/auto`, {
+      const res = await fetch(`${API_URL}/ai/auto`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ keyword: keyword.trim() }),
@@ -250,7 +250,7 @@ export default function Home() {
     setError(null);
     setSuccess(null);
     try {
-      const res = await fetch(`${API_URL}/api/shorts/${id}`, {
+      const res = await fetch(`${API_URL}/shorts/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -280,7 +280,7 @@ export default function Home() {
     }
 
     try {
-      const publicKeyRes = await fetch(`${API_URL}/api/push/public-key`);
+      const publicKeyRes = await fetch(`${API_URL}/push/public-key`);
       if (!publicKeyRes.ok) throw new Error('key');
       const { publicKey } = await publicKeyRes.json();
 
@@ -294,7 +294,7 @@ export default function Home() {
           applicationServerKey: urlBase64ToUint8Array(publicKey),
         }));
 
-      const res = await fetch(`${API_URL}/api/push/subscribe`, {
+      const res = await fetch(`${API_URL}/push/subscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ subscription }),
@@ -314,7 +314,7 @@ export default function Home() {
     setSuccess(null);
 
     try {
-      const res = await fetch(`${API_URL}/api/push/schedule`, {
+      const res = await fetch(`${API_URL}/push/schedule`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
