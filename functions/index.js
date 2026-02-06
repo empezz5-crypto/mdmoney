@@ -78,8 +78,8 @@ async function fetchTrendingVideos(youtubeKey, regionCode = "KR", maxResults = 1
   }
   const data = await res.json();
   return (data.items || []).map((item) => ({
-    title: item.snippet?.title,
-    channelTitle: item.snippet?.channelTitle,
+    title: item && item.snippet ? item.snippet.title : undefined,
+    channelTitle: item && item.snippet ? item.snippet.channelTitle : undefined,
   }));
 }
 
