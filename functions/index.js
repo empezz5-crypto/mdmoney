@@ -10,7 +10,7 @@ const crypto = require("crypto");
 const axios = require("axios");
 const webpush = require("web-push");
 
-setGlobalOptions({maxInstances: 10, region: "asia-southeast1"});
+setGlobalOptions({maxInstances: 10, region: "asia-southeast3"});
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -386,7 +386,7 @@ exports.api = onRequest(
       N8N_WEBHOOK_URL,
       PUSH_CRON_SECRET,
     ],
-    region: "asia-southeast1",
+    region: "asia-southeast3",
   },
   app
 );
@@ -394,7 +394,7 @@ exports.api = onRequest(
 exports.pushTick = onSchedule(
   {
     schedule: "every 1 minutes",
-    region: "asia-southeast1",
+    region: "asia-southeast3",
     secrets: [
       VAPID_PUBLIC_KEY,
       VAPID_PRIVATE_KEY,
