@@ -301,7 +301,7 @@ app.get("/api/push/public-key", (req, res) => {
 
 app.post("/api/push/subscribe", async (req, res) => {
   const {subscription} = req.body || {};
-  if (!subscription?.endpoint) {
+  if (!subscription || !subscription.endpoint) {
     return res.status(400).json({message: "subscription required"});
   }
   const id = crypto.createHash("sha256").update(subscription.endpoint).digest("hex");
