@@ -83,6 +83,15 @@ export default function Home() {
     subtopic: '',
     hook: '',
     notes: '',
+    promise: '',
+    structure: '',
+    lengthSec: '',
+    onScreenText: '',
+    brollIdea: '',
+    cta: '',
+    hashtags: '',
+    titleOptions: '',
+    postingTime: '',
   });
   const [keyword, setKeyword] = useState('');
   const [aiLoading, setAiLoading] = useState(false);
@@ -164,13 +173,36 @@ export default function Home() {
           subtopic: form.subtopic.trim(),
           hook: form.hook.trim(),
           notes: form.notes.trim(),
+          promise: form.promise.trim(),
+          structure: form.structure.trim(),
+          length_sec: form.lengthSec.trim(),
+          on_screen_text: form.onScreenText.trim(),
+          broll_idea: form.brollIdea.trim(),
+          cta: form.cta.trim(),
+          hashtags: form.hashtags.trim(),
+          title_options: form.titleOptions.trim(),
+          posting_time: form.postingTime.trim(),
         }),
       });
 
       if (!res.ok) throw new Error('failed');
 
       setSuccess('n8n에 전송했어요. 새로운 숏츠가 트래커에 추가되었습니다.');
-      setForm({ topic: '', subtopic: '', hook: '', notes: '' });
+      setForm({
+        topic: '',
+        subtopic: '',
+        hook: '',
+        notes: '',
+        promise: '',
+        structure: '',
+        lengthSec: '',
+        onScreenText: '',
+        brollIdea: '',
+        cta: '',
+        hashtags: '',
+        titleOptions: '',
+        postingTime: '',
+      });
       await fetchShorts();
     } catch {
       setError('n8n 전송에 실패했어요. 웹훅 주소를 확인해 주세요.');
@@ -196,6 +228,15 @@ export default function Home() {
         subtopic: data.subtopic || '',
         hook: data.hook || '',
         notes: data.notes || '',
+        promise: data.promise || '',
+        structure: data.structure || '',
+        lengthSec: data.length_sec || '',
+        onScreenText: data.on_screen_text || '',
+        brollIdea: data.broll_idea || '',
+        cta: data.cta || '',
+        hashtags: data.hashtags || '',
+        titleOptions: data.title_options || '',
+        postingTime: data.posting_time || '',
       });
       setSuccess('최신 트렌드 기반으로 자동 입력했어요.');
     } catch {
@@ -414,6 +455,86 @@ export default function Home() {
                   placeholder="톤, 참고 채널, 길이 등"
                 />
               </label>
+              <div className="ai-block">
+                <p className="panel-desc">AI 자동 생성 (조회수 최적화 필드)</p>
+                <label>
+                  약속하는 가치
+                  <input
+                    className="input"
+                    value={form.promise}
+                    onChange={(e) => setForm({ ...form, promise: e.target.value })}
+                  />
+                </label>
+                <label>
+                  전개 구조
+                  <input
+                    className="input"
+                    value={form.structure}
+                    onChange={(e) => setForm({ ...form, structure: e.target.value })}
+                    placeholder="문제 → 해결 → CTA"
+                  />
+                </label>
+                <label>
+                  길이(초)
+                  <input
+                    className="input"
+                    value={form.lengthSec}
+                    onChange={(e) => setForm({ ...form, lengthSec: e.target.value })}
+                    placeholder="예: 30"
+                  />
+                </label>
+                <label>
+                  화면 자막 키워드
+                  <input
+                    className="input"
+                    value={form.onScreenText}
+                    onChange={(e) => setForm({ ...form, onScreenText: e.target.value })}
+                  />
+                </label>
+                <label>
+                  B-roll 아이디어
+                  <input
+                    className="input"
+                    value={form.brollIdea}
+                    onChange={(e) => setForm({ ...form, brollIdea: e.target.value })}
+                  />
+                </label>
+                <label>
+                  CTA
+                  <input
+                    className="input"
+                    value={form.cta}
+                    onChange={(e) => setForm({ ...form, cta: e.target.value })}
+                  />
+                </label>
+                <label>
+                  해시태그
+                  <input
+                    className="input"
+                    value={form.hashtags}
+                    onChange={(e) => setForm({ ...form, hashtags: e.target.value })}
+                    placeholder="#부동산 #집값 #경제"
+                  />
+                </label>
+                <label>
+                  제목 후보
+                  <input
+                    className="input"
+                    value={form.titleOptions}
+                    onChange={(e) => setForm({ ...form, titleOptions: e.target.value })}
+                    placeholder="A | B | C"
+                  />
+                </label>
+                <label>
+                  추천 업로드 시간
+                  <input
+                    className="input"
+                    value={form.postingTime}
+                    onChange={(e) => setForm({ ...form, postingTime: e.target.value })}
+                    placeholder="예: 19-21시"
+                  />
+                </label>
+              </div>
               <div className="inline-actions">
                 <button className="btn ghost" type="button" onClick={handleAutoFill} disabled={aiLoading}>
                   {aiLoading ? 'AI 생성 중...' : 'AI 자동 입력'}

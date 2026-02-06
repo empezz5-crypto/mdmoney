@@ -319,6 +319,15 @@ a {
   gap: 12px;
 }
 
+.ai-block {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  background: rgba(15, 23, 42, 0.45);
+}
+
 .loading,
 .empty {
   padding: 24px;

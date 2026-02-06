@@ -95,11 +95,20 @@ async function generateIdeas(openaiKey, {keyword, trends}) {
     instructions: [
       "Reflect current trends in the topic.",
       "Output in Korean.",
-      "Return JSON with fields: topic, subtopic, hook, notes.",
+      "Return JSON with fields: topic, subtopic, hook, promise, structure, length_sec, on_screen_text, broll_idea, cta, hashtags, title_options, posting_time, notes.",
       "Make topic short and punchy (max 40 chars).",
       "Subtopic should be specific and actionable (max 60 chars).",
       "Hook should be a strong opening line (max 60 chars).",
-      "Notes can include tone, format, or CTA (max 120 chars).",
+      "Promise should be a clear viewer benefit (max 60 chars).",
+      "Structure should be a 3-step flow (max 60 chars).",
+      "length_sec should be a number as string (e.g., 30).",
+      "on_screen_text should be a short overlay text (max 40 chars).",
+      "broll_idea should be a simple visual idea (max 60 chars).",
+      "cta should be a short action prompt (max 40 chars).",
+      "hashtags should be 3-5 hashtags, space separated.",
+      "title_options should be 3 short titles separated by ' | '.",
+      "posting_time should be a short time window (e.g., 19-21시).",
+      "Notes can include tone or format (max 120 chars).",
     ],
   };
 
