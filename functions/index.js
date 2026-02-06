@@ -150,9 +150,9 @@ async function sendPushToAll({vapidPublic, vapidPrivate, vapidSubject}, payload)
   const batch = db.batch();
   results.forEach((result, index) => {
     if (result.status === "rejected") {
-      const statusCode = result.reason?.statusCode;
+      const statusCode = result.reason && result.reason.statusCode ? result.reason.statusCode : undefined;
       if (statusCode === 410 || statusCode === 404) {
-        const endpoint = subs[index]?.endpoint;
+        const endpoint = subs[index] && subs[index].endpoint ? subs[index].endpoint : undefined;
         if (endpoint) {
           const id = crypto.createHash("sha256").update(endpoint).digest("hex");
           batch.delete(db.collection("pushSubscriptions").doc(id));
